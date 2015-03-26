@@ -2,6 +2,8 @@ virtualenv env
 
 cd env
 
+. bin/activate
+
 git clone https://github.com/SevenKeys/Django-REST-Framework-Backbone-RequireJS.git
 
 cd Django-REST-Framework-Backbone-RequireJS
