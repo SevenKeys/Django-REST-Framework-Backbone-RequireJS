@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <title>
+        Main page
+    </title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}"/>
+    <script type="text/html" id="home-template">
+        <h2>Your Articles</h2>
+        <% if (articles !== null) { %>
+            <div class="articles">
+                <% _.each(articles.models, function (article) { %>
+                    <div class="article">
+                        <%- article.get('title') %> <br>
+                        <span><%- article.get('description') %></span>
+                        <span>Created <%- article.get('created') %></span>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <h3 class="loading">Loading...</h3>
+        <% } %>
+    </script>
+    <script type="text/html" id="login-template">
+        <form action="" method="post">
+            <label for="id_username">Username</label>
+            <input id="id_username" type="text" name="username" maxlength="30" required />
+            <label for="id_password">Password</label>
+            <input id="id_password" type="password" name="password" required />
+            <button type="submit">Login</button>
+        </form>
+    </script>
+    <script type="text/html" id="header-template">
+        <% if (authenticated ) { %>
+            <nav>
+                <a href="#" class="logout button">Logout</a>
+            </nav>
+        <% } %>
+    </script>
+    <script type="text/html" id="article-template">
+        <% if (article !== null) { %>
+            <% if (!article.invalid) { %>
+                <h2><%- article.get('title') %></h2>
+                <span class="due-date">Due <%- article.get('created') %></span>
+                <p class="description"><%- article.get('description') %></p>
+            <% } else { %>
+                <h1>Article <%- article.get('id') %> not found.</h1>
+            <% } %>
+        <% } else { %>
+            <h1 class="loading">Loading...</h1>
+        <% } %>
+    </script>
+</head>
+<body>
+		<div id="content"></div>
+    
+        
+        <script data-main="{% static 'main' %}" src="{% static 'vendor/require.js' %}"></script>
+        <script id="config" type="text/json">
+		{
+			"models": {},
+            "collections": {},
+            "views": {},
+            "router": null,
+            "apiRoot": "{% url 'api-root' %}",
+            "apiLogin": "{% url 'api-token' %}"
+		}
+		</script>
+        <script src="{% static 'js/app.js' %}"></script>
+        <script src="{% static 'js/model.js' %}"></script>
+        <script src="{% static 'js/views.js' %}"></script>
+        <script src="{% static 'js/router.js' %}"></script>
+</body>
+</html>
